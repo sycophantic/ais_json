@@ -51,6 +51,16 @@ while True:
       ais['ref_front'] = parsed['dim_a']
     if 'dim_c' in parsed:
       ais['ref_left'] = parsed['dim_c']
+    if 'draught' is parsed:
+      ais['draught'] = parsed['draught']
+    if 'length' is parsed:
+      ais['length'] = parsed['length']
+    if 'width' is parsed:
+      ais['width'] = parsed['width']
+    if 'destination' in parsed['destination']:
+      ais['destination'] = parsed['destination']
+    if 'persons' in parsed:
+      ais['persons_on_board'] = parsed['persons']
 
     path = { 
             "name": NAME, 
@@ -69,8 +79,9 @@ while True:
     post = json.dumps(output)
     r = requests.post(URL, files={'jsonais': (None, post)})
 
+#dump non common packets for debugging
     if parsed['id'] not in (1,2,3,4):
-      print 'Parsed:',
+      print 'Parsed:', 
       print parsed
-      print 'Post:',
+      print 'Post:', post
       print json.loads(r.text)['description']
