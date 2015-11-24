@@ -57,7 +57,7 @@ while True:
       ais['length'] = parsed['length']
     if 'width' is parsed:
       ais['width'] = parsed['width']
-    if 'destination' in parsed['destination']:
+    if 'destination' in parsed:
       ais['destination'] = parsed['destination']
     if 'persons' in parsed:
       ais['persons_on_board'] = parsed['persons']
