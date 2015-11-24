@@ -15,7 +15,7 @@ sock.bind((IP, PORT))
 
 while True:
 
-  for msg in ais.stream.decode(sock.makefile('r')):
+  for msg in ais.stream.decode(sock.makefile('r'),keep_nmea=True):
     rxtime =  datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S") #YYYYMMDDHHMMSS
     parsed = json.loads(json.dumps(msg))
     
@@ -51,11 +51,11 @@ while True:
       ais['ref_front'] = parsed['dim_a']
     if 'dim_c' in parsed:
       ais['ref_left'] = parsed['dim_c']
-    if 'draught' is parsed:
+    if 'draught' in parsed:
       ais['draught'] = parsed['draught']
-    if 'length' is parsed:
+    if 'length' in parsed:
       ais['length'] = parsed['length']
-    if 'width' is parsed:
+    if 'width' in parsed:
       ais['width'] = parsed['width']
     if 'destination' in parsed:
       ais['destination'] = parsed['destination']
@@ -81,7 +81,8 @@ while True:
 
 #dump non common packets for debugging
     if parsed['id'] not in (1,2,3,4):
-      print 'Parsed:', 
-      print parsed
+      print '---'
+      print 'NMEA:', parsed['nmea']
+      print 'Parsed:', parsed
       print 'Post:', post
-      print json.loads(r.text)['description']
+      print 'Result:', json.loads(r.text)['description']
