@@ -77,12 +77,14 @@ while True:
             }
     
     post = json.dumps(output)
-    r = requests.post(URL, files={'jsonais': (None, post)})
-
-#dump non common packets for debugging
-    if parsed['id'] not in (1,2,3,4):
-      print '---'
-      print 'NMEA:', parsed['nmea']
-      print 'Parsed:', parsed
-      print 'Post:', post
-      print 'Result:', json.loads(r.text)['description']
+    try:
+      r = requests.post(URL, files={'jsonais': (None, post)})
+      #dump non common packets for debugging
+      if parsed['id'] not in (1,2,3,4):
+        print '---'
+        print 'NMEA:', parsed['nmea']
+        print 'Parsed:', parsed
+        print 'Post:', post
+        print 'Result:', json.loads(r.text)['description']
+    except requests.exceptions.RequestException as e:
+      print e
