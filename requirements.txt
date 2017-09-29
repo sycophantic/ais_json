@@ -1,0 +1,12 @@
+# Python Distribution Package Requirements for APRS.
+#
+# Source:: https://github.com/ampledata/ais_json
+# Author:: Daniel J. Grinkevich
+# Copyright:: Copyright 2017 Daniel J. Grinkevich
+# License:: GNU General Public License, Version 3
+#
+
+
+flake8
+pylint
+twine
