@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-Setup for the Python AIS JSON Gateway.
+Setup for the Python AIS Gateway.
 
 :author: Daniel J. Grinkevich
 :copyright: Copyright 2017 Daniel J. Grinkevich
 :license: GNU General Public License, Version 3
-:source: <https://github.com/ampledata/ais_json>
+:source: <https://github.com/ampledata/aisgw>
 """
 
 import os
@@ -15,8 +15,8 @@ import sys
 
 import setuptools
 
-__title__ = 'ais_json'
-__version__ = '1.0.0b1'
+__title__ = 'aisgw'
+__version__ = '1.0.0b2'
 __author__ = 'Daniel J. Grinkevich'  # NOQA pylint: disable=R0801
 __copyright__ = 'Copyright 2017 Daniel J. Grinkevich'  # NOQA pylint: disable=R0801
 __license__ = 'GNU General Public License, Version 3'  # NOQA pylint: disable=R0801
@@ -39,14 +39,14 @@ setuptools.setup(
     description='Python AIS JSON Gateway.',
     author='Daniel J. Grinkevich',
     author_email='oss@undef.net',
-    packages=['ais_json'],
+    packages=['aisgw'],
     package_data={'': ['LICENSE']},
-    package_dir={'ais_json': 'ais_json'},
+    package_dir={'aisgw': 'aisgw'},
     license=open('LICENSE').read(),
     long_description=open('README.md').read(),
-    url='https://github.com/ampledata/ais_json',
+    url='https://github.com/ampledata/aisgw',
     zip_safe=False,
     include_package_data=True,
     install_requires=['requests >= 2.7.0', 'libais >= 0.16'],
-    entry_points={'console_scripts': ['ais_json = ais_json.cmd:cli']}
+    entry_points={'console_scripts': ['aisgw = aisgw.cmd:cli']}
 )

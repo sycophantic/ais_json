@@ -4,14 +4,14 @@
 # Python APRS Module.
 
 """
-Python AIS JSON Gateway .
+Python AIS Gateway .
 ~~~~
 
 
 :author: Daniel J. Grinkevich
 :copyright: Copyright 2017 Daniel J. Grinkevich
 :license: GNU General Public License, Version 3
-:source: <https://github.com/ampledata/ais_json>
+:source: <https://github.com/ampledata/aisgw>
 
 """
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Python AIS JSON Gateway Commands."""
+"""Python AIS Gateway Commands."""
 
 import argparse
 import datetime
@@ -9,9 +9,10 @@ import json
 import socket
 import time
 
+import ais.stream
 import requests
 
-import ais_json
+import aisgw
 
 __author__ = 'Daniel J. Grinkevich'  # NOQA pylint: disable=R0801
 __copyright__ = 'Copyright 2017 Daniel J. Grinkevich'  # NOQA pylint: disable=R0801
@@ -19,11 +20,11 @@ __license__ = 'GNU General Public License, Version 3'  # NOQA pylint: disable=R0
 
 
 def cli():
-    """Command Line interface for AIS JSON Gateway."""
+    """Command Line interface for AIS Gateway."""
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-u', '--port', help='UDP Listen port', default=ais_json.DEFAULT_PORT)
+        '-u', '--port', help='UDP Listen port', default=aisgw.DEFAULT_PORT)
     parser.add_argument(
         '-p', '--password', help='APRS.FI AIS API Password', required=True)
     parser.add_argument(
@@ -67,8 +68,11 @@ def cli():
                 ais['partno'] = parsed['part_num']
             if 'callsign' in parsed:
                 ais['callsign'] = parsed['callsign']
+
+            # Seeing '@' char getting added to end of ship name - parsing err?
             if 'name' in parsed:
-                ais['shipname'] = parsed['name']
+                ais['shipname'] = parsed['name'].replace('@', '')
+
             if 'vendor_id' in parsed:
                 ais['vendorid'] = parsed['vendor_id']
             if 'dim_a' in parsed:

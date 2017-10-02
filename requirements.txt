@@ -1,6 +1,6 @@
-# Python Distribution Package Requirements for APRS.
+# Python Distribution Package Requirements for AIS Gateway.
 #
-# Source:: https://github.com/ampledata/ais_json
+# Source:: https://github.com/ampledata/aisgw
 # Author:: Daniel J. Grinkevich
 # Copyright:: Copyright 2017 Daniel J. Grinkevich
 # License:: GNU General Public License, Version 3

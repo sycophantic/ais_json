@@ -1,6 +1,6 @@
-# Makefile for Python AIS JSON Gateway.
+# Makefile for Python AIS Gateway.
 #
-# Source:: https://github.com/ampledata/ais_json
+# Source:: https://github.com/ampledata/aisgw
 # Author:: Daniel J. Grinkevich
 # Copyright:: Copyright 2017 Daniel J. Grinkevich
 # License:: GNU General Public License, Version 3
@@ -22,7 +22,7 @@ install: remember
 	python setup.py install
 
 uninstall:
-	pip uninstall -y ais_json
+	pip uninstall -y aisgw
 
 reinstall: uninstall install
 
@@ -44,13 +44,13 @@ nosetests: remember
 	python setup.py nosetests
 
 pep8: remember
-	flake8 --max-complexity 12 --exit-zero *.py ais_json/*.py tests/*.py
+	flake8 --max-complexity 12 --exit-zero *.py aisgw/*.py tests/*.py
 
 flake8: pep8
 
 lint: remember
 	pylint --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \
-		-r n *.py  --ignore-imports=y ais_json/*.py tests/*.py || exit 0
+		-r n *.py  --ignore-imports=y aisgw/*.py tests/*.py || exit 0
 
 pylint: lint
 

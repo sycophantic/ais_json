@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Python AIS JSON Gateway Constants."""
+"""Python AIS Gateway Constants."""
 
 import logging
 import os
@@ -18,7 +18,7 @@ else:
     LOG_LEVEL = logging.INFO
 
 LOG_FORMAT = logging.Formatter(
-    ('%(asctime)s ais_json %(levelname)s %(name)s.%(funcName)s:%(lineno)d - '
+    ('%(asctime)s aisgw %(levelname)s %(name)s.%(funcName)s:%(lineno)d - '
      '%(message)s'))
 
 DEFAULT_PORT = 5050
