@@ -36,7 +36,7 @@ def cli():
     path = {'name': opts.callsign, 'url': api_url}
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(('127.0.0.1', opts.port))
+    sock.bind(('127.0.0.1', int(opts.port)))
 
     import ais.stream
     while 1:
@@ -102,11 +102,11 @@ def cli():
             r = requests.post(api_url, files={'jsonais': (None, post)})
             # dump non common packets for debugging
             if parsed['id'] not in (1, 2, 3, 4):
-                print '---'
-                print 'NMEA:', parsed['nmea']
-                print 'Parsed:', parsed
-                print 'Post:', post
-                print 'Result:', json.loads(r.text)['description']
+                print('---')
+                print('NMEA:', parsed['nmea'])
+                print('Parsed:', parsed)
+                print('Post:', post)
+                print('Result:', json.loads(r.text)['description'])
 
 
 if __name__ == '__main__':
