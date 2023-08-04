@@ -9,10 +9,8 @@ import json
 import socket
 import time
 
-import ais.stream
+import pyais
 import requests
-
-import aisgw
 
 __author__ = 'Daniel J. Grinkevich'  # NOQA pylint: disable=R0801
 __copyright__ = 'Copyright 2017 Daniel J. Grinkevich'  # NOQA pylint: disable=R0801
@@ -24,7 +22,9 @@ def cli():
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-u', '--port', help='UDP Listen port', default=aisgw.DEFAULT_PORT)
+        '--host', help='TCP host', default='127.0.0.1')
+    parser.add_argument(
+        '--port', help='TCP Listen port', default=10110)
     parser.add_argument(
         '-p', '--password', help='APRS.FI AIS API Password', required=True)
     parser.add_argument(
@@ -35,43 +35,38 @@ def cli():
     api_url = 'http://aprs.fi/jsonais/post/' + opts.password
     path = {'name': opts.callsign, 'url': api_url}
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(('127.0.0.1', int(opts.port)))
-
-    import ais.stream
     while 1:
-        for msg in ais.stream.decode(sock.makefile('r'), keep_nmea=True):
+        for msg in pyais.stream.TCPConnection(opts.host, port=int(opts.port)):
             rxtime = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S") #YYYYMMDDHHMMSS
-            parsed = json.loads(json.dumps(msg))
+            parsed = msg.decode().asdict()
 
             ais = {
-                'msgtype': parsed['id'],
+                'msgtype': parsed['msg_type'],
                 'mmsi': parsed['mmsi'],
                 'rxtime': rxtime
             }
 
-            if 'x' in parsed:
-                ais['lon'] = parsed['x']
+            if 'lon' in parsed:
+                ais['lon'] = parsed['lon']
             if 'y' in parsed:
-                ais['lat'] = parsed['y']
-            if 'sog' in parsed:
-                ais['speed'] = parsed['sog']
-            if 'cog' in parsed:
-                ais['course'] = parsed['cog']
-            if 'true_heading' in parsed:
-                ais['heading'] = parsed['true_heading']
-            if 'nav_status' in parsed:
-                ais['status'] = parsed['nav_status']
-            if 'type_and_cargo' in parsed:
-                ais['shiptype'] = parsed['type_and_cargo']
+                ais['lat'] = parsed['lat']
+            if 'speed' in parsed:
+                ais['speed'] = parsed['speed']
+            if 'course' in parsed:
+                ais['course'] = parsed['course']
+            if 'heading' in parsed:
+                ais['heading'] = parsed['heading']
+            if 'status' in parsed:
+                ais['status'] = int(parsed['status'])
+            if 'ship_type' in parsed:
+                ais['shiptype'] = int(parsed['ship_type'])
             if 'part_num' in parsed:
                 ais['partno'] = parsed['part_num']
             if 'callsign' in parsed:
                 ais['callsign'] = parsed['callsign']
 
-            # Seeing '@' char getting added to end of ship name - parsing err?
-            if 'name' in parsed:
-                ais['shipname'] = parsed['name'].replace('@', '')
+            if 'shipname' in parsed:
+                ais['shipname'] = parsed['shipname']
 
             if 'vendor_id' in parsed:
                 ais['vendorid'] = parsed['vendor_id']
@@ -100,14 +95,6 @@ def cli():
 
             post = json.dumps(output)
             r = requests.post(api_url, files={'jsonais': (None, post)})
-            # dump non common packets for debugging
-            if parsed['id'] not in (1, 2, 3, 4):
-                print('---')
-                print('NMEA:', parsed['nmea'])
-                print('Parsed:', parsed)
-                print('Post:', post)
-                print('Result:', json.loads(r.text)['description'])
-
 
 if __name__ == '__main__':
     cli()
