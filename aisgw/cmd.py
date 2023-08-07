@@ -39,6 +39,8 @@ def cli():
         for msg in pyais.stream.TCPConnection(opts.host, port=int(opts.port)):
             rxtime = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S") #YYYYMMDDHHMMSS
             parsed = msg.decode().asdict()
+            
+            #print(parsed)
 
             ais = {
                 'msgtype': parsed['msg_type'],
@@ -48,7 +50,7 @@ def cli():
 
             if 'lon' in parsed:
                 ais['lon'] = parsed['lon']
-            if 'y' in parsed:
+            if 'lat' in parsed:
                 ais['lat'] = parsed['lat']
             if 'speed' in parsed:
                 ais['speed'] = parsed['speed']
@@ -95,6 +97,7 @@ def cli():
 
             post = json.dumps(output)
             r = requests.post(api_url, files={'jsonais': (None, post)})
+            #print(ais)
 
 if __name__ == '__main__':
     cli()
