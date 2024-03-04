@@ -1,4 +1,4 @@
-# ais_json
+# aisgw
 
 This is a simple AIS parser that accepts a UDP stream (from aisdispatcher) and posts the output via JSON AIS to aprs.fi
 
